@@ -1,0 +1,5 @@
+.idea
+log
+tmp
+db/*.sqlite3
+schema.rb
