@@ -1,0 +1,20 @@
+<h1>Editing pipe</h1>
+
+<% form_for(@pipe) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :material %><br />
+    <%= f.text_field :material %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @pipe %> |
+<%= link_to 'Back', pipes_path %>
