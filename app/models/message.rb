@@ -8,7 +8,6 @@ class Message < ActiveRecord::Base
   
   named_scope :urgent,
               :conditions => "priority = #{PRIORITIES.index(:urgent)}",
-              :limit => :all,
               :order => "created_at DESC"
   named_scope :recent,
               lambda { |limit = 15, *|
