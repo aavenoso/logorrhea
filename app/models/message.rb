@@ -15,8 +15,8 @@ class Message < ActiveRecord::Base
               }
   named_scope :mentioning,
               lambda { |txt = '', *|
-                :conditions => "body like '%#{txt}%'"
-                }
+                {:conditions => "body like '%#{txt}%'"}
+              }
   
   validates_presence_of :body
   validates_presence_of :user_id
