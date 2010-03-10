@@ -14,7 +14,7 @@ namespace :test do
         t.test_files = FileList["test/#{target}/*_test.rb"]
         t.output_dir = "test/coverage/#{target}"
         t.verbose = true
-        t.rcov_opts << '--rails --aggregate coverage.data'
+        t.rcov_opts << '--rails --aggregate coverage.data --no-rcovrt'
       end
     end
     task :coverage => "test:coverage:#{target}"
