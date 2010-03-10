@@ -1,7 +1,8 @@
 
   <tr>
-    <td><%= user_form.label :name %></td>
     <td><%= user_form.text_field  :username %></td>
+    <td><%= user_form.text_field  :password %></td>
+    <td><%= delete_child_option(user_form) %></td>
   </tr>
   <tr>
     <td><%= user_form.label :password %></td>
