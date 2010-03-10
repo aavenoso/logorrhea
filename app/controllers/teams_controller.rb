@@ -24,7 +24,7 @@ class TeamsController < ApplicationController
   # GET /teams/new
   # GET /teams/new.xml
   def new
-    @team = Team.new
+    @team = Team.new.with_extra_users(3)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,7 +34,7 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
-    @team = Team.find(params[:id])
+    @team = Team.find(params[:id]).with_extra_users(3)
   end
 
   # POST /teams
