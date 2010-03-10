@@ -9,10 +9,25 @@
   </p>
 
   <hr/>
+<table>
+  <thead>
+  <tr>
+    <th>User Name</th>
+    <th>Password</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Delete?</th>
+  </tr>
+  </thead>
+  <tbody>
+
 
   <% team_form.fields_for(:users) do |user_form| -%>
-  <%= render :partial => "user_form", :locals => {:user_form => user_form} if user_form %>
+      <%= render :partial => "user_form", :locals => {:user_form => user_form} if user_form %>
   <%end%>
+  </tbody>
+</table>
 
   <p>
     <%= team_form.submit 'Create' %>
