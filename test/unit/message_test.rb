@@ -7,17 +7,27 @@ require 'faker'
 class MessageTest < ActiveSupport::TestCase
   include Faker
   
-  Factory.define :message do |m|
-    m.body Lorem.sentence
-    m.user_id 1
-    m.priority rand(4)
+  Factory.define :user do | u |
+    u.first_name 'John'
+    u.last_name 'Doe'
+    u.email 'jdoe@email.com'
+    u.password 'password'
+    u.username 'jdoe'
   end
   
+  Factory.define :message do |m|
+    m.body Lorem.sentence
+    m.user {|user| user.association(:user) }
+    m.priority rand(4)
+  end
+
+  
   def message_with_replies
+    u = Factory(:user)
     parent = nil
     thread = []
     (1..5).each do |m|
-      m = Factory(:message)
+      m = Factory(:message, :user => u)
       m.parent_id = parent
       m.save
       parent ||= m.id
