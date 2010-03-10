@@ -14,4 +14,13 @@ class UserTest < Test::Unit::TestCase
     should_belong_to :team
     should_have_many :messages
   end
+
+  context "User Name" do
+    setup do
+      @user = User.new first_name:"John", last_name:"Doe"
+    end
+    should "combine the user's name" do
+      assert_equal "John Doe", @user.name
+    end
+  end
 end
