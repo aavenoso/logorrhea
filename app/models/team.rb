@@ -3,7 +3,8 @@ class Team < ActiveRecord::Base
 
   has_many :users
 
-  accepts_nested_attributes_for :users, :allow_destroy => true
+  user_attributes_blank = lambda { |attrs| attrs.all? {|_,v| v.blank?} }
+  accepts_nested_attributes_for :users, :allow_destroy => true, :reject_if => user_attributes_blank
 
   has_many :messages, :through => :users do
     def most_recent(count=5)
