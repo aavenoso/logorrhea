@@ -29,6 +29,10 @@ class Message < ActiveRecord::Base
   def priority=(sym)
     self[:priority] = PRIORITIES.index(sym)
   end
-
   
+  def body_for_display
+    body.gsub %r{(http://\S*)} do |url|
+      %Q{<a href="#{url}">#{url}</a>}
+    end
+  end
 end
