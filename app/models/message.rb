@@ -13,7 +13,10 @@ class Message < ActiveRecord::Base
               lambda { |limit = 15, *|
                 {:limit => limit, :order => "messages.created_at DESC"}
               }
-              
+  named_scope :mentioning,
+              lambda { |txt = '', *|
+                :conditions => "body like '%#{txt}%'"
+                }
   
   validates_presence_of :body
   validates_presence_of :user_id
