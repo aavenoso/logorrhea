@@ -29,29 +29,65 @@ class TeamTest < ActiveSupport::TestCase
     Time.gm(2010,1,1,0,0,0) + n
   end
 
-  context "Most recent team messages with single user" do
+  context "Single team" do
     setup do
       @team = Factory(:team)
-      @user = Factory(:user, :team => @team)
     end
-    should "Return Single message as most recent" do
-      @message = Factory(:message, :user => @user)
-      assert_equal 1, @team.messages.most_recent(1).count
-      assert_equal @message, @team.messages.most_recent(1)[0]
-    end
+    context "Single user" do
+      setup do
+        @user = Factory(:user, :team => @team)
+      end
 
-    should "Return 5 messages by default" do
-      msgs = generate_multiple_messages(6, @user)
-      assert_equal 5, @team.messages.most_recent.count
-      assert !@team.messages.most_recent.include?(msgs[0]), "First message should not be in recent messages"
-      (1..5).each do |i|
-        assert @team.messages.most_recent.include?(msgs[i])
+      should "Return Single message as most recent" do
+        @message = Factory(:message, :user => @user)
+        assert_equal 1, @team.messages.most_recent(1).count
+        assert_equal @message, @team.messages.most_recent(1)[0]
+      end
+
+      should "Return 5 messages by default" do
+        msgs = generate_multiple_messages(6, @user)
+        assert_equal 5, @team.messages.most_recent.count
+        assert !@team.messages.most_recent.include?(msgs[0]), "First message should not be in recent messages"
+        (1..5).each do |i|
+          assert @team.messages.most_recent.include?(msgs[i])
+        end
+      end
+
+      should "Return 2 messages when specifying 2 and there are more than 2" do
+        generate_multiple_messages(3, @user)
+        assert_equal 2, @team.messages.most_recent(2).count
       end
     end
-    
-    should "Return 2 messages when specifying 2 and there are more than 2" do
-      generate_multiple_messages(3, @user)
-      assert_equal 2, @team.messages.most_recent(2).count
+
+    context "Multiple Users" do
+      setup do
+        @users = []
+        @users << Factory(:user, :team => @team)
+        @users << Factory(:user, :team => @team)
+      end
+
+      should "Return all messages from all users" do
+        msgs = []
+        @users.each {|u| msgs << generate_multiple_messages(3, u)}
+        assert_equal @users.count * 3, @team.messages.most_recent(@users.count * 3).count
+      end
+
+      should "Return most recent messages from mixed users" do
+        generate_multiple_messages(2, @users[0])
+        generate_multiple_messages(2, @users[1])
+        assert_equal 3, @team.messages.most_recent(3).count
+        msgs = @team.messages.most_recent(3)
+        assert_equal msgs[2].user, @users[0]
+        assert_equal msgs[1].user, @users[1]        
+      end
+
+    end
+
+  end
+
+  context "Multiple users in the single team" do
+    setup do
+
     end
   end
 
