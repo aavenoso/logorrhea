@@ -30,7 +30,7 @@ class UserTest <  ActiveSupport::TestCase
       assert_equal(0, user.mentioned_in.size)
     end
     should "find some messages" do
-      user = Factory(:user)
+      user = User.new(username: 'jdoe')
       Message.expects(:mentioning).with('jdoe').returns ['foo']
       messages = user.mentioned_in
       assert_equal(1, messages.size)
