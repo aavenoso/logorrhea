@@ -1,4 +1,6 @@
 require 'test_helper'
+require 'faker'
+include Faker
 
 class UsersControllerTest < ActionController::TestCase
   test "should get index" do
@@ -14,7 +16,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create user" do
     assert_difference('User.count') do
-      post :create, :user => { }
+      post :create, :user => {first_name: Name.first_name, last_name: Name.last_name, username: Name.first_name, email: Internet.email, password: 'password' }
     end
 
     assert_redirected_to user_path(assigns(:user))
@@ -31,7 +33,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    put :update, :id => users(:one).to_param, :user => { }
+    put :update, :id => users(:one).to_param, :user => {first_name: Name.first_name, last_name: Name.last_name, username: Name.first_name, email: Internet.email, password: 'password' }
     assert_redirected_to user_path(assigns(:user))
   end
 
