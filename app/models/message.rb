@@ -7,7 +7,6 @@ class Message < ActiveRecord::Base
   has_many :children, :class_name  => "Message", :foreign_key => :parent_id, :dependent => :destroy
   
   def descendants
-    # return (self.children + self.children.collect{|x| x.descendants }).flatten.compact
     (dids=descendant_ids).blank? ? [] : self.class.find(dids)
   end
   alias :thread :descendants

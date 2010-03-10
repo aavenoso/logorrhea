@@ -10,6 +10,11 @@ class Team < ActiveRecord::Base
       all(:order => "messages.created_at desc", :limit => count)
     end
   end
+  
+  def with_extra_users(n=1)
+    n.times { users.build }
+    self
+  end#with_extra_users
 
 
 
