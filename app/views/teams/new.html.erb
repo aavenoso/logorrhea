@@ -8,11 +8,11 @@
     <%= team_form.text_field :name %>
   </p>
 
-  <table>
-    <tbody>
-    
-     </tbody
-  </table>
+  <hr/>
+
+  <% team_form.fields_for(:users) do |user_form| -%>
+  <%= render :partial => "user_form", :locals => {:user_form => user_form} if user_form %>
+  <%end%>
 
   <p>
     <%= team_form.submit 'Create' %>
