@@ -1,16 +1,9 @@
 require 'test_helper'
 require 'shoulda'
 require 'shoulda/active_record/macros'
-require 'factory_girl'
+require 'mocha'
 
-class UserTest < Test::Unit::TestCase
-  Factory.define :user do | u |
-    u.first_name 'John'
-    u.last_name 'Doe'
-    u.email 'jdoe@email.com'
-    u.password 'password'
-    u.username 'jdoe'
-  end
+class UserTest <  ActiveSupport::TestCase
 
   context "User Validation" do
     should_validate_presence_of :username, :first_name, :last_name, :email, :password
@@ -26,7 +19,21 @@ class UserTest < Test::Unit::TestCase
 
   context "User Name" do
     should "combine the user's name" do
-      assert_equal "John Doe", Factory(:user).name
+      user = User.new(first_name: 'John', last_name: 'Doe', username: 'jdoe')
+      assert_equal "John Doe", user.name
+    end
+  end
+
+  context "Mentioned In" do
+    should "return an empty list if there are no messages" do
+      user = User.new(first_name: 'John', last_name: 'Doe', username: 'jdoe')
+      assert_equal(0, user.mentioned_in.size)
+    end
+    should "find some messages" do
+      user = Factory(:user)
+      Message.expects(:mentioning).with('jdoe').returns ['foo']
+      messages = user.mentioned_in
+      assert_equal(1, messages.size)
     end
   end
 end
